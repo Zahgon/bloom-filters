@@ -7,15 +7,7 @@ import random from 'lodash/random'
  * @return True if the input is a prime number, False otherwise
  */
 function isPrime(x: number): boolean {
-  if (x !== 2 && x % 2 === 0) {
-    return false
-  }
-  for (let i = 2; i < Math.sqrt(x); i++) {
-    if (x % i === 0) {
-      return false
-    }
-  }
-  return true
+    throw new Error("STUB");
 }
 
 /**
@@ -24,17 +16,7 @@ function isPrime(x: number): boolean {
  * @return The fist prime number superior to the input number
  */
 function closestPrime(x: number): number {
-  let i = 0,
-    stop = false,
-    to_return = i
-  while (!stop) {
-    if (isPrime(x + i)) {
-      to_return = x + i
-      stop = true
-    }
-    i++
-  }
-  return to_return
+    throw new Error("STUB");
 }
 
 /**
@@ -54,16 +36,7 @@ export default class MinHashFactory {
    * @param maxValue - The highest value that can be found in the set to compare
    */
   constructor(nbHashes: number, maxValue: number) {
-    this._nbHashes = nbHashes
-    this._maxValue = maxValue
-    this._hashFunctions = []
-    // Generate hash functions
-    const c = closestPrime(this._maxValue)
-    for (let i = 0; i < this._nbHashes; i++) {
-      const a = random(0, this._maxValue, false),
-        b = random(0, this._maxValue, false)
-      this._hashFunctions.push({a, b, c})
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -71,6 +44,6 @@ export default class MinHashFactory {
    * @return A new MinHash set
    */
   public create(): MinHash {
-    return new MinHash(this._nbHashes, this._hashFunctions)
+      throw new Error("STUB");
   }
 }

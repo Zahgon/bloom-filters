@@ -36,7 +36,7 @@ SOFTWARE.
  * @memberof Formulas
  */
 export function optimalFilterSize(length: number, errorRate: number): number {
-  return Math.ceil(-((length * Math.log(errorRate)) / Math.log(2) ** 2))
+    throw new Error("STUB");
 }
 
 /**
@@ -47,5 +47,5 @@ export function optimalFilterSize(length: number, errorRate: number): number {
  * @memberof Formulas
  */
 export function optimalHashes(size: number, length: number): number {
-  return Math.ceil((size / length) * Math.log(2))
+    throw new Error("STUB");
 }

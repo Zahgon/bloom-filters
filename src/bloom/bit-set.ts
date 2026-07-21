@@ -23,9 +23,7 @@ export default class BitSet {
    * @param size the number of bits that can be stored. (This is NOT required to be a multiple of 8.)
    */
   constructor(size: number) {
-    const diff = bitsPerWord - (size % bitsPerWord)
-    this.size = size + ([0, 8].includes(diff) ? 0 : diff)
-    this.array = new Uint8Array(Math.ceil(this.size / bitsPerWord))
+      throw new Error("STUB");
   }
 
   /**
@@ -33,9 +31,7 @@ export default class BitSet {
    * @param index position of the bit, zero-indexed
    */
   public has(index: number): boolean {
-    const wordIndex = Math.floor(index / bitsPerWord),
-      mask = 1 << index % bitsPerWord
-    return (this.array[wordIndex] & mask) !== 0
+      throw new Error("STUB");
   }
 
   /**
@@ -43,33 +39,21 @@ export default class BitSet {
    * @param index position of the bit, zero-indexed
    */
   public add(index: number) {
-    const wordIndex = Math.floor(index / bitsPerWord),
-      mask = 1 << index % bitsPerWord
-    this.array[wordIndex] = this.array[wordIndex] | mask
+      throw new Error("STUB");
   }
 
   /**
    * Returns the maximum true bit.
    */
   public max(): number {
-    for (let i = this.array.length - 1; i >= 0; i--) {
-      const bits = this.array[i]
-      if (bits) {
-        return BitSet.highBit(bits) + i * bitsPerWord
-      }
-    }
-    return 0
+      throw new Error("STUB");
   }
 
   /**
    * Returns the number of true bits.
    */
   public bitCount(): number {
-    let result = 0
-    for (let i = 0; i < this.array.length; i++) {
-      result += BitSet.countBits(this.array[i]) // Assumes we never have bits set beyond the end
-    }
-    return result
+      throw new Error("STUB");
   }
 
   /**
@@ -77,25 +61,14 @@ export default class BitSet {
    * @param other another BitSet
    */
   public equals(other: BitSet): boolean {
-    if (other.size !== this.size) {
-      return false
-    }
-    for (let i = 0; i < this.array.length; i++) {
-      if (this.array[i] !== other.array[i]) {
-        return false
-      }
-    }
-    return true
+      throw new Error("STUB");
   }
 
   /**
    * Returns a JSON-encodable object readable by {@link import}.
    */
   public export(): {size: number; content: string} {
-    return {
-      size: this.size,
-      content: encode(this.array),
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -103,16 +76,7 @@ export default class BitSet {
    * @param data an object written by {@link export}
    */
   public static import(data: {size: number; content: string}): BitSet {
-    if (typeof data.size !== 'number') {
-      throw Error('BitSet missing size')
-    }
-    if (typeof data.content !== 'string') {
-      throw Error('BitSet: missing content')
-    }
-    const result = new BitSet(data.size),
-      buffer = decode(data.content)
-    result.array = new Uint8Array(buffer)
-    return result
+      throw new Error("STUB");
   }
 
   /**
@@ -125,13 +89,7 @@ export default class BitSet {
    * ```
    */
   public static highBit(bits: number): number {
-    let result = bitsPerWord - 1,
-      mask = 1 << result
-    while (result >= 0 && (mask & bits) !== mask) {
-      mask >>>= 1
-      result--
-    }
-    return result
+      throw new Error("STUB");
   }
 
   /**
@@ -144,11 +102,6 @@ export default class BitSet {
    * ```
    */
   public static countBits(bits: number): number {
-    let result = bits & 1
-    while (bits !== 0) {
-      bits >>>= 1
-      result += bits & 1
-    }
-    return result
+      throw new Error("STUB");
   }
 }

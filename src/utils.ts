@@ -11,15 +11,7 @@ export function allocateArray<T>(
   size: number,
   defaultValue: T | (() => T)
 ): Array<T> {
-  const array: Array<T> = new Array<T>(size),
-    getDefault =
-      typeof defaultValue === 'function'
-        ? (defaultValue as () => T)
-        : () => defaultValue
-  for (let ind = 0; ind < size; ind++) {
-    array[ind] = getDefault()
-  }
-  return array
+    throw new Error("STUB");
 }
 
 /**
@@ -36,13 +28,7 @@ export function randomInt(
   max: number,
   random?: () => number
 ): number {
-  if (random === undefined) {
-    random = Math.random
-  }
-  min = Math.ceil(min)
-  max = Math.floor(max)
-  const rn = random()
-  return Math.floor(rn * (max - min + 1)) + min
+    throw new Error("STUB");
 }
 
 /**
@@ -51,7 +37,7 @@ export function randomInt(
  * @author Arnaud Grall
  */
 export function getDefaultSeed(): bigint {
-  return 0x1234567890n
+    throw new Error("STUB");
 }
 
 /**
@@ -62,26 +48,7 @@ export function getDefaultSeed(): bigint {
  * @author Arnaud Grall
  */
 export function xorUint8Array(a: Uint8Array, b: Uint8Array): Uint8Array {
-  const length = Math.max(a.length, b.length),
-    buffer = new Uint8Array(length).fill(0)
-  for (let i = 0; i < length; ++i) {
-    if (i < a.length && i < b.length) {
-      buffer[length - i - 1] = a[a.length - i - 1] ^ b[b.length - i - 1]
-    } else if (i < a.length && i >= b.length) {
-      buffer[length - i - 1] ^= a[a.length - i - 1]
-    } else if (i < b.length && i >= a.length) {
-      buffer[length - i - 1] ^= b[b.length - i - 1]
-    }
-  }
-  // Now need to remove leading zeros in the buffer if any
-  let start = 0
-  const it = buffer.values()
-  let value = it.next()
-  while (!value.done && value.value === 0) {
-    start++
-    value = it.next()
-  }
-  return Uint8Array.prototype.slice.call(buffer, start)
+    throw new Error("STUB");
 }
 
 /**
@@ -90,7 +57,7 @@ export function xorUint8Array(a: Uint8Array, b: Uint8Array): Uint8Array {
  * @returns
  */
 export function getBigIntAbs(n: bigint): bigint {
-  return n < 0n ? -n : n
+    throw new Error("STUB");
 }
 
 /**
@@ -99,9 +66,7 @@ export function getBigIntAbs(n: bigint): bigint {
  * @returns
  */
 export function exportBigInt(value: bigint): ExportedBigInt {
-  return {
-    $bf$bigint: value.toString(),
-  }
+    throw new Error("STUB");
 }
 
 /**
@@ -110,7 +75,7 @@ export function exportBigInt(value: bigint): ExportedBigInt {
  * @returns
  */
 export function importBigInt(value: ExportedBigInt) {
-  return BigInt(value.$bf$bigint)
+    throw new Error("STUB");
 }
 
 const max = 2n ** (64n - 1n) - 1n
@@ -121,8 +86,5 @@ const max = 2n ** (64n - 1n) - 1n
  * @throws Number doesn't fit in signed 64-bit integer!
  */
 export function bigIntToNumber(int: bigint): number {
-  if (int > max) {
-    throw new Error("Number doesn't fit in signed 64-bit integer!")
-  }
-  return Number(BigInt.asIntN(64, int))
+    throw new Error("STUB");
 }

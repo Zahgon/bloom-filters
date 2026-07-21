@@ -32,7 +32,7 @@ export type HashFunction = {
  * @return The hashed value
  */
 function applyHashFunction(x: number, fn: HashFunction): number {
-  return (fn.a * x + fn.b) % fn.c
+    throw new Error("STUB");
 }
 
 /**
@@ -65,7 +65,7 @@ export default class MinHash extends BaseFilter {
    * Get the number of hash functions used by the MinHash
    */
   public get nbHashes(): number {
-    return this._nbHashes
+      throw new Error("STUB");
   }
 
   /**
@@ -73,7 +73,7 @@ export default class MinHash extends BaseFilter {
    * @return True if the MinHash is empty, False otherwise
    */
   public isEmpty(): boolean {
-    return this._signature[0] === Infinity
+      throw new Error("STUB");
   }
 
   /**
@@ -81,10 +81,7 @@ export default class MinHash extends BaseFilter {
    * @param value - Value to insert
    */
   public add(value: number): void {
-    for (let i = 0; i < this._nbHashes; i++) {
-      const hash = applyHashFunction(value, this._hashFunctions[i])
-      this._signature[i] = Math.min(this._signature[i], hash)
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -92,21 +89,7 @@ export default class MinHash extends BaseFilter {
    * @param values - Set of values to load
    */
   public bulkLoad(values: number[]): void {
-    for (let i = 0; i < this._nbHashes; i++) {
-      const candidateSignatures = values.map((value: number) =>
-        applyHashFunction(value, this._hashFunctions[i])
-      )
-      // Get the minimum of the candidate Signatures
-      // Dont supply too much parameters to Math.min or Math.max with risk of getting stack error
-      // So we compute an iterative minimum
-      let min = candidateSignatures[0]
-      for (let i = 1; i < candidateSignatures.length; i++) {
-        if (min > candidateSignatures[i]) {
-          min = candidateSignatures[i]
-        }
-      }
-      this._signature[i] = Math.min(this._signature[i], min)
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -115,35 +98,14 @@ export default class MinHash extends BaseFilter {
    * @return The estimated Jaccard similarity coefficient between the two sets
    */
   public compareWith(other: MinHash): number {
-    if (this.isEmpty() || other.isEmpty()) {
-      throw new EmptyMinHashError(
-        'Cannot compute a Jaccard similairty with a MinHash that contains no values'
-      )
-    }
-    // Fix: we need to check for the number of equal signatures, not uniq equal signatures
-    // Lodash intersection ends with a uniq set of values
-    let count = 0
-    for (let i = 0; i < this._nbHashes; i++) {
-      if (this._signature[i] === other._signature[i]) {
-        count++
-      }
-    }
-    return count / this._nbHashes
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedMinHash {
-    return {
-      _hashFunctions: this._hashFunctions,
-      _nbHashes: this._nbHashes,
-      _signature: this._signature,
-      _seed: exportBigInt(this._seed),
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedMinHash): MinHash {
-    const filter = new MinHash(element._nbHashes, element._hashFunctions)
-    filter.seed = importBigInt(element._seed)
-    filter._signature = element._signature
-    return filter
+      throw new Error("STUB");
   }
 }

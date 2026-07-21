@@ -40,15 +40,15 @@ export class MinHeap {
    * Get the number of items in the heap
    */
   public get length() {
-    return this._content.length
+      throw new Error("STUB");
   }
 
   public get content() {
-    return this._content
+      throw new Error("STUB");
   }
 
   public set content(value: HeapElement[]) {
-    this._content = value
+      throw new Error("STUB");
   }
 
   /**
@@ -57,7 +57,7 @@ export class MinHeap {
    * @return The item or `undefined` if the index is out of the array
    */
   public get(index: number): HeapElement | undefined {
-    return this._content[index]
+      throw new Error("STUB");
   }
 
   /**
@@ -65,13 +65,7 @@ export class MinHeap {
    * @param element - Element to insert
    */
   public add(element: HeapElement) {
-    // Keep items sorted by frequency
-    const index = sortedIndexBy(
-      this._content,
-      element,
-      heapElement => heapElement.frequency
-    )
-    this._content.splice(index, 0, element)
+      throw new Error("STUB");
   }
 
   /**
@@ -79,7 +73,7 @@ export class MinHeap {
    * @param index - Index of the item to remove
    */
   public remove(index: number): void {
-    this._content.splice(index, 1)
+      throw new Error("STUB");
   }
 
   /**
@@ -87,7 +81,7 @@ export class MinHeap {
    * @return The element with the smallest frequency in the heap
    */
   public popMin(): HeapElement | undefined {
-    return this._content.shift()
+      throw new Error("STUB");
   }
 
   /**
@@ -96,26 +90,22 @@ export class MinHeap {
    * @return Index of the element or -1 if it is not in the heap
    */
   public indexOf(value: string): number {
-    return this._content.findIndex(heapElement => heapElement.value === value)
+      throw new Error("STUB");
   }
 
   /**
    * Clear the content of the heap
    */
   public clear() {
-    this._content = []
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedMinHeap {
-    return {
-      _content: this._content,
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedMinHeap): MinHeap {
-    const filter = new MinHeap()
-    filter._content = element._content
-    return filter
+      throw new Error("STUB");
   }
 }
 
@@ -150,18 +140,7 @@ export default class TopK extends BaseFilter {
    * @param seed - The seed to use (optional)
    */
   constructor(k: number, errorRate: number, accuracy: number, seed?: SeedType) {
-    super()
-    if (seed) {
-      this.seed = seed
-    }
-    this._k = k
-    this._errorRate = errorRate
-    this._accuracy = accuracy
-    this._sketch = CountMinSketch.create(errorRate, accuracy)
-    if (seed) {
-      this._sketch.seed = seed
-    }
-    this._heap = new MinHeap()
+      throw new Error("STUB");
   }
 
   /**
@@ -169,39 +148,14 @@ export default class TopK extends BaseFilter {
    * @param element - Element to add
    */
   public add(element: string, count = 1): void {
-    if (count <= 0) {
-      throw `count must be > 0 (was ${count})`
-    }
-    this._sketch.update(element, count)
-    const frequency = this._sketch.count(element)
-
-    if (
-      this._heap.length < this._k ||
-      frequency >= this._heap.get(0)!.frequency
-    ) {
-      const index = this._heap.indexOf(element)
-      // Remove the entry if it is already in the MinHeap
-      if (index > -1) {
-        this._heap.remove(index)
-      }
-      // Add the new entry
-      this._heap.add({
-        value: element,
-        frequency,
-      })
-      // If there is more items than K, then remove the smallest item in the heap
-      if (this._heap.length > this._k) {
-        this._heap.popMin()
-      }
-    }
+      throw new Error("STUB");
   }
 
   /**
    * Clear the content of the TopK
    */
   public clear(): void {
-    this._sketch = CountMinSketch.create(this._errorRate, this._accuracy)
-    this._heap.clear()
+      throw new Error("STUB");
   }
 
   /**
@@ -209,16 +163,7 @@ export default class TopK extends BaseFilter {
    * @return The top-k values as an array of objects {value: string, frequency: number, rank: number}
    */
   public values(): TopkElement[] {
-    const res = []
-    for (let i = this._heap.length - 1; i >= 0; i--) {
-      const elt = this._heap.get(i)!
-      res.push({
-        value: elt.value,
-        frequency: elt.frequency,
-        rank: this._heap.length - i,
-      })
-    }
-    return res
+      throw new Error("STUB");
   }
 
   /**
@@ -228,35 +173,14 @@ export default class TopK extends BaseFilter {
    * @return The top-k values as an iterator of object {value: string, frequency: number, rank: number}
    */
   public iterator(): Iterator<TopkElement> {
-    const heap = this._heap
-    return (function* () {
-      for (let i = heap.length - 1; i >= 0; i--) {
-        const elt = heap.get(i)!
-        yield {
-          value: elt.value,
-          frequency: elt.frequency,
-          rank: heap.length - i,
-        }
-      }
-    })()
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedTopK {
-    return {
-      _seed: exportBigInt(this._seed),
-      _accuracy: this._accuracy,
-      _errorRate: this._errorRate,
-      _heap: this._heap.saveAsJSON(),
-      _k: this._k,
-      _sketch: this._sketch.saveAsJSON(),
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedTopK): TopK {
-    const filter = new TopK(element._k, element._errorRate, element._accuracy)
-    filter.seed = importBigInt(element._seed)
-    filter._heap = MinHeap.fromJSON(element._heap)
-    filter._sketch = CountMinSketch.fromJSON(element._sketch)
-    return filter
+      throw new Error("STUB");
   }
 }

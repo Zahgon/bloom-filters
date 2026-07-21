@@ -64,24 +64,7 @@ export default class XorFilter extends BaseFilter {
    * @param bits_per_fingerprint
    */
   constructor(size: number, bits_per_fingerprint: XorSize = 8) {
-    super()
-    if (!this.ALLOWED_FINGERPRINT_SIZES.includes(bits_per_fingerprint)) {
-      throw new Error(
-        `bits_per_fingerprint parameter must be one of: [${this.ALLOWED_FINGERPRINT_SIZES.join(
-          ','
-        )}], got: ${bits_per_fingerprint.toString()}`
-      )
-    }
-    this._bits = bits_per_fingerprint
-    if (size <= 0) {
-      throw new Error(
-        'a XorFilter must be calibrated for a given number of elements'
-      )
-    }
-    this._size = size
-    const arrayLength = this._getOptimalFilterSize(this._size)
-    this._blockLength = arrayLength / this.HASHES
-    this._filter = allocateArray(arrayLength, 0n)
+      throw new Error("STUB");
   }
 
   /**
@@ -90,22 +73,7 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public has(element: HashableInput): boolean {
-    const hash = BigInt(this._hash64(element, this.seed)),
-      hashes = new Array(this.HASHES)
-        .fill(0)
-        .map((_, i) => this._createHx(i, hash, this._blockLength)),
-      fp = this._fingerprint(hash)
-
-    let xor
-    for (let i = 0; i < this.HASHES; i++) {
-      const hi = hashes[i]
-      if (!xor) {
-        xor = this._filter[hi + i * this._blockLength]
-      } else {
-        xor ^= this._filter[hi + i * this._blockLength]
-      }
-    }
-    return fp === xor
+      throw new Error("STUB");
   }
 
   /**
@@ -114,21 +82,7 @@ export default class XorFilter extends BaseFilter {
    * @param elements
    */
   public add(elements: HashableInput[]) {
-    if (elements.length !== this._size) {
-      throw new Error(
-        `This filter has been created for exactly ${this._size.toString()} elements`
-      )
-    } else {
-      // Check for unicity
-      if (new Set(elements).size === elements.length) {
-        this._create(elements)
-      } else {
-        throw new Error(
-          'This filter has duplicate values; remove them and recreate the filter before proceeding.'
-        )
-      }
-    }
-    return this
+      throw new Error("STUB");
   }
 
   /**
@@ -136,7 +90,7 @@ export default class XorFilter extends BaseFilter {
    * @private
    */
   public _hash64(element: HashableInput, seed: SeedType): bigint {
-    return xxh3.xxh64(element, BigInt(seed))
+      throw new Error("STUB");
   }
 
   /**
@@ -144,9 +98,7 @@ export default class XorFilter extends BaseFilter {
    * @private
    */
   public _createHx(index: number, hash: bigint, blockLength: number): number {
-    return Number(
-      BigInt.asUintN(32, (hash >> (BigInt(index) * 21n)) % BigInt(blockLength))
-    )
+      throw new Error("STUB");
   }
 
   /**
@@ -155,101 +107,7 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public _create(elements: HashableInput[]) {
-    // Work only on bigint(s)
-    this.seed = 0n
-
-    const reverseOrder: bigint[] = allocateArray(this._size, 0n),
-      reverseH: number[] = allocateArray(this._size, 0)
-    let reverseOrderPos
-    do {
-      this.seed = BigInt(this.nextInt32())
-      const t2count = allocateArray(this._filter.length, 0),
-        t2 = allocateArray(this._filter.length, 0n)
-      elements.forEach(k => {
-        const hash = BigInt(this._hash64(k, this.seed))
-        for (let hi = 0; hi < this.HASHES; hi++) {
-          const h =
-            this._createHx(hi, hash, this._blockLength) + hi * this._blockLength
-          t2[h] = t2[h] ^ hash
-          if (t2count[h] > 120) {
-            // Probably something wrong with the hash function
-            throw new Error(
-              `Probably something wrong with the hash function, t2count[${h.toString()}]=${t2count[h].toString()}`
-            )
-          }
-          t2count[h]++
-        }
-      })
-      reverseOrderPos = 0
-      const alone: number[][] = allocateArray(this.HASHES, () =>
-          allocateArray(this._blockLength, 0)
-        ),
-        alonePos: number[] = allocateArray(this.HASHES, 0)
-      for (let nextAlone = 0; nextAlone < this.HASHES; nextAlone++) {
-        for (let i = 0; i < this._blockLength; i++) {
-          if (t2count[nextAlone * this._blockLength + i] === 1) {
-            alone[nextAlone][alonePos[nextAlone]++] =
-              nextAlone * this._blockLength + i
-          }
-        }
-      }
-      let found = -1,
-        i = 0
-      while (i !== -1) {
-        i = -1
-        for (let hi = 0; hi < this.HASHES; hi++) {
-          if (alonePos[hi] > 0) {
-            i = alone[hi][--alonePos[hi]]
-            found = hi
-            break
-          }
-        }
-        if (i === -1) {
-          // No entry found
-          break
-        }
-        if (t2count[i] <= 0) {
-          continue
-        }
-        const k = t2[i]
-        if (t2count[i] !== 1) {
-          throw new Error('At this step, the count must not be different of 1')
-        }
-        --t2count[i]
-        for (let hi = 0; hi < this.HASHES; hi++) {
-          if (hi !== found) {
-            const h =
-                this._createHx(hi, k, this._blockLength) +
-                hi * this._blockLength,
-              newCount = --t2count[h]
-            if (newCount === 1) {
-              alone[hi][alonePos[hi]++] = h
-            }
-            t2[h] = t2[h] ^ k
-          }
-        }
-        reverseOrder[reverseOrderPos] = k
-        reverseH[reverseOrderPos] = found
-        reverseOrderPos++
-      }
-    } while (reverseOrderPos !== this._size)
-
-    for (let i = reverseOrderPos - 1; i >= 0; i--) {
-      const k = reverseOrder[i],
-        found = reverseH[i]
-      let change = -1,
-        xor = this._fingerprint(k)
-      for (let hi = 0; hi < this.HASHES; hi++) {
-        const h =
-          this._createHx(hi, k, this._blockLength) + hi * this._blockLength
-        if (found === hi) {
-          change = h
-        } else {
-          xor ^= this._filter[h]
-        }
-      }
-      this._filter[change] = BigInt.asUintN(this._bits, xor)
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -262,7 +120,7 @@ export default class XorFilter extends BaseFilter {
     elements: HashableInput[],
     bits_per_fingerprint: XorSize = 8
   ): XorFilter {
-    return new XorFilter(elements.length, bits_per_fingerprint).add(elements)
+      throw new Error("STUB");
   }
 
   /**
@@ -273,10 +131,7 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public _getOptimalFilterSize(size: number): number {
-    // Optimal size
-    const s = (1 * this.FACTOR_TIMES_100 * size) / 100 + this.OFFSET
-    // Return a size which is a multiple of hashes for optimal blocklength
-    return s + (-s % this.HASHES)
+      throw new Error("STUB");
   }
 
   /**
@@ -287,7 +142,7 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public _fingerprint(hash: bigint): bigint {
-    return BigInt.asUintN(this._bits, hash ^ (hash >> 32n))
+      throw new Error("STUB");
   }
 
   /**
@@ -295,13 +150,7 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public saveAsJSON(): ExportedXorFilter {
-    return {
-      _size: this._size,
-      _bits: this._bits,
-      _blockLength: this._blockLength,
-      _filter: this._filter.map(e => exportBigInt(e)),
-      _seed: exportBigInt(this._seed),
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -309,11 +158,6 @@ export default class XorFilter extends BaseFilter {
    * @returns
    */
   public static fromJSON(element: ExportedXorFilter): XorFilter {
-    const bl = new XorFilter(element._size, element._bits)
-    bl.seed = importBigInt(element._seed)
-    bl._size = element._size
-    bl._blockLength = element._blockLength
-    bl._filter = element._filter.map(e => importBigInt(e))
-    return bl
+      throw new Error("STUB");
   }
 }

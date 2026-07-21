@@ -35,16 +35,7 @@ export default class CountMinSketch
    * @param rows - Number of rows
    */
   constructor(columns: number, rows: number, seed?: SeedType) {
-    super()
-    if (seed) {
-      this.seed = seed
-    }
-    this._columns = columns
-    this._rows = rows
-    this._matrix = allocateArray(this._rows, () =>
-      allocateArray(this._columns, 0)
-    )
-    this._allSums = 0
+      throw new Error("STUB");
   }
 
   /**
@@ -54,10 +45,7 @@ export default class CountMinSketch
    * @return A new Count Min Sketch optimal for the input parameters
    */
   public static create(errorRate: number, accuracy = 0.999): CountMinSketch {
-    // Columns = Math.ceil(Math.E / epsilon) and rows = Math.ceil(Math.log(1 / delta))
-    const columns = Math.ceil(Math.E / errorRate),
-      rows = Math.ceil(Math.log(1 / accuracy))
-    return new CountMinSketch(columns, rows)
+      throw new Error("STUB");
   }
 
   /**
@@ -73,35 +61,28 @@ export default class CountMinSketch
     accuracy = 0.999,
     seed?: SeedType
   ): CountMinSketch {
-    const filter = CountMinSketch.create(errorRate, accuracy)
-    if (seed) {
-      filter.seed = seed
-    }
-    for (const item of items) {
-      filter.update(item)
-    }
-    return filter
+      throw new Error("STUB");
   }
 
   /**
    * Return the number of columns in the sketch
    */
   public get columns(): number {
-    return this._columns
+      throw new Error("STUB");
   }
 
   /**
    * Return the number of rows in the sketch
    */
   public get rows(): number {
-    return this._rows
+      throw new Error("STUB");
   }
 
   /**
    * Get the sum of all counts in the sketch
    */
   public get sum(): number {
-    return this._allSums
+      throw new Error("STUB");
   }
 
   /**
@@ -110,16 +91,7 @@ export default class CountMinSketch
    * @param count - Number of occurences of the elemnt (defauls to one)
    */
   public update(element: HashableInput, count = 1): void {
-    this._allSums += count
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._columns,
-      this._rows,
-      this.seed
-    )
-    for (let i = 0; i < this._rows; i++) {
-      this._matrix[i][indexes[i]] += count
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -128,18 +100,7 @@ export default class CountMinSketch
    * @return The estimate number of occurence of the element
    */
   public count(element: HashableInput): number {
-    let min = Infinity
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._columns,
-      this._rows,
-      this.seed
-    )
-    for (let i = 0; i < this._rows; i++) {
-      const v = this._matrix[i][indexes[i]]
-      min = Math.min(v, min)
-    }
-    return min
+      throw new Error("STUB");
   }
 
   /**
@@ -148,17 +109,7 @@ export default class CountMinSketch
    * @return True if they are equal, false otherwise
    */
   public equals(other: CountMinSketch): boolean {
-    if (this._columns !== other._columns || this._rows !== other._rows) {
-      return false
-    }
-    for (let i = 0; i < this._rows; i++) {
-      for (let j = 0; j < this._columns; j++) {
-        if (this._matrix[i][j] !== other._matrix[i][j]) {
-          return false
-        }
-      }
-    }
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -166,20 +117,7 @@ export default class CountMinSketch
    * @param sketch - The sketch to merge with
    */
   public merge(sketch: CountMinSketch): void {
-    if (this._columns !== sketch._columns) {
-      throw new Error(
-        'Cannot merge two sketches with different number of columns'
-      )
-    }
-    if (this._rows !== sketch._rows) {
-      throw new Error('Cannot merge two sketches with different number of rows')
-    }
-
-    for (let i = 0; i < this._rows; i++) {
-      for (let j = 0; j < this._columns; j++) {
-        this._matrix[i][j] += sketch._matrix[i][j]
-      }
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -187,27 +125,14 @@ export default class CountMinSketch
    * @return A new cloned sketch
    */
   public clone(): CountMinSketch {
-    const sketch = new CountMinSketch(this._columns, this._rows)
-    sketch.merge(this)
-    sketch.seed = this.seed
-    return sketch
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedCountMinSketch {
-    return {
-      _allSums: this._allSums,
-      _matrix: this._matrix,
-      _rows: this._rows,
-      _columns: this._columns,
-      _seed: exportBigInt(this._seed),
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedCountMinSketch): CountMinSketch {
-    const filter = new CountMinSketch(element._columns, element._rows)
-    filter.seed = importBigInt(element._seed)
-    filter._matrix = element._matrix
-    filter._allSums = element._allSums
-    return filter
+      throw new Error("STUB");
   }
 }

@@ -37,7 +37,7 @@ export default class Cell {
    * @return An empty Cell
    */
   public static empty(): Cell {
-    return new Cell(Uint8Array.from([]), 0, 0)
+      throw new Error("STUB");
   }
 
   /**
@@ -46,9 +46,7 @@ export default class Cell {
    * @param hashSum - The hash of the element to XOR in this cell
    */
   public add(idSum: Uint8Array, hashSum: number): void {
-    this._idSum = xorUint8Array(this._idSum, idSum)
-    this._hashSum ^= hashSum
-    this._count++
+      throw new Error("STUB");
   }
 
   /**
@@ -59,11 +57,7 @@ export default class Cell {
    * @return A new Cell, resulting from the XOR operation
    */
   public xorm(cell: Cell): Cell {
-    return new Cell(
-      xorUint8Array(this._idSum, cell._idSum),
-      this._hashSum ^ cell._hashSum,
-      this._count - cell._count
-    )
+      throw new Error("STUB");
   }
 
   /**
@@ -71,15 +65,11 @@ export default class Cell {
    * @return True if the Cell is empty, False otherwise
    */
   public isEmpty(): boolean {
-    return (
-      this.arrayEqual(this._idSum, Uint8Array.from([])) &&
-      this._hashSum === 0 &&
-      this._count === 0
-    )
+      throw new Error("STUB");
   }
 
   public arrayEqual(a: Uint8Array, b: Uint8Array): boolean {
-    return a.every((v, i) => v === b[i])
+      throw new Error("STUB");
   }
 
   /**
@@ -88,26 +78,14 @@ export default class Cell {
    * @return True if the two Cells are equals, False otherwise
    */
   public equals(cell: Cell): boolean {
-    return (
-      this._count === cell._count &&
-      this.arrayEqual(this._idSum, cell._idSum) &&
-      this._hashSum === cell._hashSum
-    )
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedCell {
-    return {
-      _idSum: Array.from(this._idSum),
-      _hashSum: this._hashSum,
-      _count: this._count,
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedCell): Cell {
-    return new Cell(
-      Uint8Array.from(element._idSum),
-      element._hashSum,
-      element._count
-    )
+      throw new Error("STUB");
   }
 }

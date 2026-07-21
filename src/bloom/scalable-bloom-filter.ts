@@ -66,11 +66,7 @@ export default class ScalableBloomFilter
     _initial_error_rate = 0.001,
     _ratio = ScalableBloomFilter.DEFAULT_RATIO
   ) {
-    super()
-    this._initial_size = _initial_size
-    this._initial_error_rate = _initial_error_rate
-    this._ratio = _ratio
-    this.addFilter()
+      throw new Error("STUB");
   }
 
   /**
@@ -79,7 +75,7 @@ export default class ScalableBloomFilter
    * For obscure reason we must code this function...
    */
   public get seed() {
-    return this._seed
+      throw new Error("STUB");
   }
 
   /**
@@ -90,40 +86,18 @@ export default class ScalableBloomFilter
    * @param  seed the new seed that will be used in this structure
    */
   public set seed(seed: SeedType) {
-    this._seed = seed
-    this._rng = seedrandom(this._seed.toString())
-    this._filters.forEach((filter: PartitionBloomFilter) => {
-      filter.seed = this.seed
-    })
+      throw new Error("STUB");
   }
 
   /**
    * Get the current filter to use
    */
   public get current(): PartitionBloomFilter {
-    return this._filters[this._filters.length - 1]
+      throw new Error("STUB");
   }
 
   public addFilter() {
-    const index = this._filters.length
-    let newErrorRate, newHashes, newSize
-    if (index === 0) {
-      newSize = this._initial_size
-      newErrorRate = this._initial_error_rate
-    } else {
-      newSize = this._filters[0]._m * ScalableBloomFilter._s ** index
-      newErrorRate = this.current._errorRate * this._ratio
-      newHashes = Math.ceil(
-        this._filters[0]._k + index * Math.log2(1 / this._ratio)
-      )
-    }
-    const newFilter = PartitionBloomFilter.create(
-      newSize,
-      newErrorRate,
-      newHashes
-    )
-    newFilter._seed = this.seed
-    this._filters.push(newFilter)
+      throw new Error("STUB");
   }
 
   /**
@@ -131,12 +105,7 @@ export default class ScalableBloomFilter
    * @param element
    */
   public add(element: HashableInput) {
-    // Determine if we need to create a new filter
-    if (this.current.load() >= 0.5) {
-      this.addFilter()
-    }
-    // Get the newly created filter
-    this.current.add(element)
+      throw new Error("STUB");
   }
 
   /**
@@ -146,7 +115,7 @@ export default class ScalableBloomFilter
    * @returns
    */
   public has(element: HashableInput) {
-    return this._filters.some(filter => filter.has(element))
+      throw new Error("STUB");
   }
 
   /**
@@ -154,7 +123,7 @@ export default class ScalableBloomFilter
    * @returns
    */
   public capacity(): number {
-    return this._filters.map(f => f.capacity).reduce((p, c) => p + c, 0)
+      throw new Error("STUB");
   }
 
   /**
@@ -162,7 +131,7 @@ export default class ScalableBloomFilter
    * @returns
    */
   public rate(): number {
-    return this._filters.reduce((acc, cur) => acc * cur.rate(), 1)
+      throw new Error("STUB");
   }
 
   /**
@@ -177,31 +146,16 @@ export default class ScalableBloomFilter
     _error_rate: number,
     _ratio = ScalableBloomFilter.DEFAULT_RATIO
   ) {
-    return new ScalableBloomFilter(_size, _error_rate, _ratio)
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedScalableBloomFilter {
-    return {
-      _initial_size: this._initial_size,
-      _initial_error_rate: this._initial_error_rate,
-      _filters: this._filters.map(filter => filter.saveAsJSON()),
-      _seed: exportBigInt(this._seed),
-      _ratio: this._ratio,
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(
     element: ExportedScalableBloomFilter
   ): ScalableBloomFilter {
-    const bl = new ScalableBloomFilter(
-      element._initial_size,
-      element._initial_error_rate,
-      element._ratio
-    )
-    bl.seed = importBigInt(element._seed)
-    bl._filters = element._filters.map(filter =>
-      PartitionBloomFilter.fromJSON(filter)
-    )
-    return bl
+      throw new Error("STUB");
   }
 }

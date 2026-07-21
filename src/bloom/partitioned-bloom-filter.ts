@@ -49,7 +49,7 @@ export default class PartitionedBloomFilter
     this._k = nbHashes
     this._errorRate = errorRate
     this._m = Math.ceil(this._bits / this._k)
-    this._filter = allocateArray(this._k, () => new BitSet(this._m))
+    this._filter = allocateArray(this._k, () => { throw new Error("STUB"); })
   }
 
   /**
@@ -63,13 +63,7 @@ export default class PartitionedBloomFilter
     errorRate: number,
     nbHashes?: number
   ): PartitionedBloomFilter {
-    const L = Math.max(
-        nbHashes ? nbHashes : Math.ceil(Math.log2(1 / errorRate)),
-        2
-      ),
-      M = (size * Math.abs(Math.log(errorRate))) / Math.LN2 ** 2
-    // The optimal loadfactor is 0.5 for maximized size
-    return new PartitionedBloomFilter(M, L, errorRate)
+      throw new Error("STUB");
   }
 
   /**
@@ -88,31 +82,21 @@ export default class PartitionedBloomFilter
     errorRate: number,
     seed?: SeedType
   ): PartitionedBloomFilter {
-    const array = Array.from(items),
-      filter = PartitionedBloomFilter.create(array.length, errorRate)
-    if (seed) {
-      filter.seed = seed
-    }
-    array.forEach(element => {
-      filter.add(element)
-    })
-    return filter
+      throw new Error("STUB");
   }
 
   /**
    * Get the filter capacity, i.e. the maximum number of elements it can hold
    */
   public get capacity(): number {
-    return Math.floor(
-      (this._k * this._m * Math.LN2 ** 2) / Math.abs(Math.log(this._errorRate))
-    )
+      throw new Error("STUB");
   }
 
   /**
    * Get the size of the filter
    */
   public get size(): number {
-    return this._bits
+      throw new Error("STUB");
   }
 
   /**
@@ -125,15 +109,7 @@ export default class PartitionedBloomFilter
    * ```
    */
   public add(element: HashableInput): void {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._m,
-      this._k,
-      this.seed
-    )
-    for (let i = 0; i < this._k; i++) {
-      this._filter[i].add(indexes[i])
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -149,18 +125,7 @@ export default class PartitionedBloomFilter
    * ```
    */
   public has(element: HashableInput): boolean {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._m,
-      this._k,
-      this.seed
-    )
-    for (let i = 0; i < this._k; i++) {
-      if (!this._filter[i].has(indexes[i])) {
-        return false
-      }
-    }
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -173,10 +138,7 @@ export default class PartitionedBloomFilter
    * ```
    */
   public rate(): number {
-    // Get the error rate for the first bucket (1 - (1 - 1/m)^n), where m is the size of a slice and n is the number of inserted elements
-    const p = this.load()
-    // P = p^k
-    return p ** this._k
+      throw new Error("STUB");
   }
 
   /**
@@ -184,32 +146,16 @@ export default class PartitionedBloomFilter
    * @return An float between 0 and 1, where 0 = filter empty and 1 = filter full
    */
   public load(): number {
-    const a = this._filter.reduce((acc, bitSet) => acc + bitSet.bitCount(), 0)
-    return a / this._bits
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedPartitionedBloomFilter {
-    return {
-      _bits: this._bits,
-      _k: this._k,
-      _filter: this._filter.map(m => m.export()),
-      _seed: exportBigInt(this._seed),
-      _m: this._m,
-      _errorRate: this._errorRate,
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(
     element: ExportedPartitionedBloomFilter
   ): PartitionedBloomFilter {
-    const bl = new PartitionedBloomFilter(
-      element._bits,
-      element._k,
-      element._errorRate
-    )
-    bl.seed = importBigInt(element._seed)
-    bl._m = element._m
-    bl._filter = element._filter.map(b => BitSet.import(b))
-    return bl
+      throw new Error("STUB");
   }
 }

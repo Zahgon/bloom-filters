@@ -33,14 +33,14 @@ export default class Bucket<T> {
    * Get the maximum number of element in the bucket
    */
   public get size(): number {
-    return this._size
+      throw new Error("STUB");
   }
 
   /**
    * Get the number of elements currenlty in the bucket
    */
   public get length(): number {
-    return this._length
+      throw new Error("STUB");
   }
 
   /**
@@ -48,7 +48,7 @@ export default class Bucket<T> {
    * @return True if te bucket has any space available, False if if its full
    */
   public isFree(): boolean {
-    return this._length < this._size
+      throw new Error("STUB");
   }
 
   /**
@@ -56,7 +56,7 @@ export default class Bucket<T> {
    * @return The index of the first empty slot, or -1 if the bucket is full
    */
   public nextEmptySlot(): number {
-    return indexOf(this._elements, null)
+      throw new Error("STUB");
   }
 
   /**
@@ -65,7 +65,7 @@ export default class Bucket<T> {
    * @return The element at the given index
    */
   public at(index: number): T | null {
-    return this._elements[index]
+      throw new Error("STUB");
   }
 
   /**
@@ -74,12 +74,7 @@ export default class Bucket<T> {
    * @return True if the insertion is a success, False if the bucket is full
    */
   add(element: T | null): boolean {
-    if (element === null || !this.isFree()) {
-      return false
-    }
-    this.set(this.nextEmptySlot(), element)
-    this._length++
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -88,12 +83,7 @@ export default class Bucket<T> {
    * @return True if the element has been successfully removed, False if it was not in the bucket
    */
   public remove(element: T): boolean {
-    const index = indexOf(this._elements, element)
-    if (index <= -1) {
-      return false
-    }
-    this.unset(index)
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -102,7 +92,7 @@ export default class Bucket<T> {
    * @return True is the element is in the bucket, otherwise False
    */
   public has(element: T): boolean {
-    return indexOf(this._elements, element) > -1
+      throw new Error("STUB");
   }
 
   /**
@@ -111,7 +101,7 @@ export default class Bucket<T> {
    * @param element - The element to insert
    */
   public set(index: number, element: T | null): void {
-    this._elements[index] = element
+      throw new Error("STUB");
   }
 
   /**
@@ -119,8 +109,7 @@ export default class Bucket<T> {
    * @param index - The index of the element that should be unset
    */
   public unset(index: number): void {
-    this._elements[index] = null
-    this._length--
+      throw new Error("STUB");
   }
 
   /**
@@ -130,10 +119,7 @@ export default class Bucket<T> {
    * @return The element that have been swapped with the parameter
    */
   public swapRandom(element: T, random: () => number = Math.random): T | null {
-    const index = utils.randomInt(0, this._length - 1, random),
-      tmp = this._elements[index]
-    this._elements[index] = element
-    return tmp
+      throw new Error("STUB");
   }
 
   /**
@@ -143,9 +129,7 @@ export default class Bucket<T> {
    * @return The element that have been swapped with the parameter
    */
   public swap(index: number, element: T): T | null {
-    const tmp = this._elements[index]
-    this._elements[index] = element
-    return tmp
+      throw new Error("STUB");
   }
 
   /**
@@ -154,24 +138,14 @@ export default class Bucket<T> {
    * @return True if the two buckets are equals, False otherwise
    */
   public equals(bucket: Bucket<T>): boolean {
-    if (this._size !== bucket.size || this._length !== bucket.length) {
-      return false
-    }
-    return this._elements.every((elt, index) => eq(bucket.at(index), elt))
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedBucket<T> {
-    return {
-      _size: this._size,
-      _elements: this._elements,
-      _length: this._length,
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON<U>(element: ExportedBucket<U>): Bucket<U> {
-    const bl = new Bucket<U>(element._size)
-    bl._elements = element._elements
-    bl._length = element._length
-    return bl
+      throw new Error("STUB");
   }
 }

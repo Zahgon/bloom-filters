@@ -23,7 +23,7 @@ export default abstract class BaseFilter {
    * Get the seed used in this structure
    */
   public get seed(): SeedType {
-    return this._seed
+      throw new Error("STUB");
   }
 
   /**
@@ -31,8 +31,7 @@ export default abstract class BaseFilter {
    * @param  seed the new seed that will be used in this structure
    */
   public set seed(seed: SeedType) {
-    this._seed = seed
-    this._rng = seedrandom(`${this._seed}`)
+      throw new Error("STUB");
   }
 
   /**
@@ -40,7 +39,7 @@ export default abstract class BaseFilter {
    * @return A factory function used to draw random integer
    */
   public get random() {
-    return this._rng
+      throw new Error("STUB");
   }
 
   /**
@@ -48,6 +47,6 @@ export default abstract class BaseFilter {
    * @returns
    */
   public nextInt32(): number {
-    return this._rng.int32()
+      throw new Error("STUB");
   }
 }

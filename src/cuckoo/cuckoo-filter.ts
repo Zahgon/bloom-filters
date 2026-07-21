@@ -31,8 +31,7 @@ export type ExportedCuckooFilter = {
  * @private
  */
 function computeFingerpintLength(size: number, rate: number): number {
-  const f = Math.ceil(Math.log2(1 / rate) + Math.log2(2 * size))
-  return Math.ceil(f / 8) // Because we use 64-bits hashes
+    throw new Error("STUB");
 }
 
 /**
@@ -68,7 +67,7 @@ export default class CuckooFilter
     maxKicks = 500
   ) {
     super()
-    this._filter = allocateArray(size, () => new Bucket(bucketSize))
+    this._filter = allocateArray(size, () => { throw new Error("STUB"); })
     this._size = size
     this._bucketSize = bucketSize
     this._fingerprintLength = fLength
@@ -90,9 +89,7 @@ export default class CuckooFilter
     bucketSize = 4,
     maxKicks = 500
   ): CuckooFilter {
-    const fl = computeFingerpintLength(bucketSize, errorRate),
-      capacity = Math.ceil(size / bucketSize / 0.955)
-    return new CuckooFilter(capacity, fl, bucketSize, maxKicks)
+      throw new Error("STUB");
   }
 
   /**
@@ -109,57 +106,49 @@ export default class CuckooFilter
     bucketSize = 4,
     maxKicks = 500
   ): CuckooFilter {
-    const array = Array.from(items),
-      filter = CuckooFilter.create(
-        array.length,
-        errorRate,
-        bucketSize,
-        maxKicks
-      )
-    array.forEach(item => filter.add(item))
-    return filter
+      throw new Error("STUB");
   }
 
   /**
    * Get the filter size
    */
   public get size(): number {
-    return this._size
+      throw new Error("STUB");
   }
 
   /**
    * Get the filter full size, i.e., the total number of cells
    */
   public get fullSize(): number {
-    return this.size * this.bucketSize
+      throw new Error("STUB");
   }
 
   /**
    * Get the filter length, i.e. the current number of elements in the filter
    */
   public get length(): number {
-    return this._length
+      throw new Error("STUB");
   }
 
   /**
    * Get the length of the fingerprints in the filter
    */
   public get fingerprintLength(): number {
-    return this._fingerprintLength
+      throw new Error("STUB");
   }
 
   /**
    * Get the size of the buckets in the filter
    */
   public get bucketSize(): number {
-    return this._bucketSize
+      throw new Error("STUB");
   }
 
   /**
    * Get the max number of kicks when resolving collision at insertion
    */
   public get maxKicks(): number {
-    return this._maxKicks
+      throw new Error("STUB");
   }
 
   /**
@@ -178,62 +167,7 @@ export default class CuckooFilter
     throwError = false,
     destructive = false
   ): boolean {
-    // TODO do the recovery if return false or throw error because we altered values
-    const locations = this._locations(element)
-    // Store fingerprint in an available empty bucket
-    if (this._filter[locations.firstIndex].isFree()) {
-      this._filter[locations.firstIndex].add(locations.fingerprint)
-    } else if (this._filter[locations.secondIndex].isFree()) {
-      this._filter[locations.secondIndex].add(locations.fingerprint)
-    } else {
-      // Buckets are full, we must relocate one of them
-      let index =
-          this.random() < 0.5 ? locations.firstIndex : locations.secondIndex,
-        movedElement: string = locations.fingerprint
-      const logs: Array<[number, number, string | null]> = []
-      for (let nbTry = 0; nbTry < this._maxKicks; nbTry++) {
-        const rndIndex = randomInt(
-            0,
-            this._filter[index].length - 1,
-            this.random
-          ),
-          tmp = this._filter[index].at(rndIndex)!
-        logs.push([index, rndIndex, tmp])
-        this._filter[index].set(rndIndex, movedElement)
-        movedElement = tmp
-        // MovedElement = this._filter[index].set(rndswapRandom(movedElement, this._rng)
-        const newHash = this._hashing.hashAsInt(movedElement, this.seed),
-          absNewHash = getBigIntAbs(newHash)
-        let _index = BigInt(index) ^ absNewHash
-        _index = getBigIntAbs(_index)
-        _index %= BigInt(this._filter.length)
-        index = bigIntToNumber(_index)
-        // Add the moved element to the bucket if possible
-        if (this._filter[index].isFree()) {
-          this._filter[index].add(movedElement)
-          this._length++
-          return true
-        }
-      }
-      if (!destructive) {
-        // Rollback all modified entries to their initial states
-        for (let i = logs.length - 1; i >= 0; i--) {
-          const log = logs[i]
-          this._filter[log[0]].set(log[1], log[2])
-        }
-      }
-      // Considered full
-      if (throwError) {
-        // Rollback all operations
-        throw new Error(
-          `The Cuckoo Filter is full, cannot insert element "${element}"`
-        )
-      } else {
-        return false
-      }
-    }
-    this._length++
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -251,17 +185,7 @@ export default class CuckooFilter
    * ```
    */
   public remove(element: HashableInput): boolean {
-    const locations = this._locations(element)
-    if (this._filter[locations.firstIndex].has(locations.fingerprint)) {
-      this._filter[locations.firstIndex].remove(locations.fingerprint)
-      this._length--
-      return true
-    } else if (this._filter[locations.secondIndex].has(locations.fingerprint)) {
-      this._filter[locations.secondIndex].remove(locations.fingerprint)
-      this._length--
-      return true
-    }
-    return false
+      throw new Error("STUB");
   }
 
   /**
@@ -278,11 +202,7 @@ export default class CuckooFilter
    * ```
    */
   public has(element: HashableInput): boolean {
-    const locations = this._locations(element)
-    return (
-      this._filter[locations.firstIndex].has(locations.fingerprint) ||
-      this._filter[locations.secondIndex].has(locations.fingerprint)
-    )
+      throw new Error("STUB");
   }
 
   /**
@@ -290,9 +210,7 @@ export default class CuckooFilter
    * @return The false positive rate
    */
   public rate(): number {
-    const load = this._computeHashTableLoad(),
-      c = this._fingerprintLength / load.load
-    return 2 ** (Math.log2(2 * this._bucketSize) - load.load * c)
+      throw new Error("STUB");
   }
 
   /**
@@ -300,14 +218,7 @@ export default class CuckooFilter
    * @return {Object} load: is the load, size is the number of entries, free is the free number of entries, used is the number of entry used
    */
   public _computeHashTableLoad() {
-    const max = this._filter.length * this._bucketSize,
-      used = this._filter.reduce((acc, val) => acc + val.length, 0)
-    return {
-      used,
-      free: max - used,
-      size: max,
-      load: used / max,
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -317,25 +228,7 @@ export default class CuckooFilter
    * @private
    */
   public _locations(element: HashableInput) {
-    const hashes = this._hashing.hashIntAndString(element, this.seed),
-      hash = hashes.int
-    if (this._fingerprintLength > hashes.string.length) {
-      throw new Error(
-        `The fingerprint length (${this._fingerprintLength}) is higher than the hash length (${hashes.string.length}). Please reduce the fingerprint length or report if it is an unexpected behavior.`
-      )
-    }
-    const fingerprint = hashes.string.substring(0, this._fingerprintLength),
-      firstIndex = hash < 0n ? -hash : hash
-    let secondHash = this._hashing.hashAsInt(fingerprint, this.seed)
-    secondHash = secondHash < 0n ? -secondHash : secondHash
-    let secondIndex = firstIndex ^ secondHash
-    secondIndex = secondIndex < 0n ? -secondIndex : secondIndex
-    const res = {
-      fingerprint,
-      firstIndex: bigIntToNumber(firstIndex % BigInt(this._size)),
-      secondIndex: bigIntToNumber(secondIndex % BigInt(this._size)),
-    }
-    return res
+      throw new Error("STUB");
   }
 
   /**
@@ -344,16 +237,7 @@ export default class CuckooFilter
    * @return True if they are equal, false otherwise
    */
   public equals(filter: CuckooFilter): boolean {
-    let i = 0,
-      res = true
-    while (res && i < this._filter.length) {
-      const bucket = this._filter[i]
-      if (!filter._filter[i].equals(bucket)) {
-        res = false
-      }
-      i++
-    }
-    return res
+      throw new Error("STUB");
   }
 
   /**
@@ -361,15 +245,7 @@ export default class CuckooFilter
    * @returns
    */
   public saveAsJSON(): ExportedCuckooFilter {
-    return {
-      _size: this._size,
-      _fingerprintLength: this._fingerprintLength,
-      _length: this._length,
-      _maxKicks: this._maxKicks,
-      _filter: this._filter.map(f => f.saveAsJSON()),
-      _seed: exportBigInt(this._seed),
-      _bucketSize: this._bucketSize,
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -378,15 +254,6 @@ export default class CuckooFilter
    * @returns
    */
   public static fromJSON(element: ExportedCuckooFilter): CuckooFilter {
-    const filter = new CuckooFilter(
-      element._size,
-      element._fingerprintLength,
-      element._bucketSize,
-      element._maxKicks as number | undefined
-    )
-    filter.seed = importBigInt(element._seed)
-    filter._length = element._length
-    filter._filter = element._filter.map(e => Bucket.fromJSON<string>(e))
-    return filter
+      throw new Error("STUB");
   }
 }

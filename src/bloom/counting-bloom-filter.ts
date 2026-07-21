@@ -34,17 +34,7 @@ export default class CountingBloomFilter
    * @param nbHashes - The number of hash functions
    */
   constructor(size: number, nbHashes: number) {
-    super()
-    if (nbHashes < 1) {
-      throw new Error(
-        `A CountingBloomFilter must used at least one hash function, but you tried to use ${nbHashes} functions. Consider increasing it.`
-      )
-    }
-    this._size = size // Fm.optimalFilterSize(capacity, errorRate)
-    this._nbHashes = nbHashes // Fm.optimalHashes(this._size, capacity)
-    // The filter contains tuples [bit, counter]
-    this._filter = allocateArray(this._size, () => [0, 0])
-    this._length = 0
+      throw new Error("STUB");
   }
 
   /**
@@ -57,8 +47,7 @@ export default class CountingBloomFilter
     capacity: number,
     errorRate: number
   ): CountingBloomFilter {
-    const s = optimalFilterSize(capacity, errorRate)
-    return new CountingBloomFilter(s, optimalHashes(s, capacity))
+      throw new Error("STUB");
   }
 
   /**
@@ -76,24 +65,21 @@ export default class CountingBloomFilter
     items: Iterable<HashableInput>,
     errorRate: number
   ): CountingBloomFilter {
-    const array = Array.from(items),
-      filter = CountingBloomFilter.create(array.length, errorRate)
-    array.forEach(element => filter.add(element))
-    return filter
+      throw new Error("STUB");
   }
 
   /**
    * Get the optimal size of the filter
    */
   public get size(): number {
-    return this._size
+      throw new Error("STUB");
   }
 
   /**
    * Get the number of elements currently in the filter
    */
   public get length(): number {
-    return this._length
+      throw new Error("STUB");
   }
 
   /**
@@ -106,21 +92,7 @@ export default class CountingBloomFilter
    * ```
    */
   public add(element: HashableInput): void {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._size,
-      this._nbHashes,
-      this.seed
-    )
-    for (let i = 0; i < indexes.length; i++) {
-      // Increment counter
-      this._filter[indexes[i]][1] += 1
-      // Set bit if necessary
-      if (this._filter[indexes[i]][1] > 0) {
-        this._filter[indexes[i]][0] = 1
-      }
-    }
-    this._length++
+      throw new Error("STUB");
   }
 
   /**
@@ -133,23 +105,7 @@ export default class CountingBloomFilter
    * ```
    */
   public remove(element: HashableInput): boolean {
-    const indexes = this._hashing.getIndexes(
-        element,
-        this._size,
-        this._nbHashes,
-        this.seed
-      ),
-      success = true
-    for (let i = 0; i < indexes.length; i++) {
-      // Decrement counter
-      this._filter[indexes[i]][1] -= 1
-      // Set bit if necessary
-      if (this._filter[indexes[i]][1] <= 0) {
-        this._filter[indexes[i]][0] = 0
-      }
-    }
-    this._length--
-    return success
+      throw new Error("STUB");
   }
 
   /**
@@ -165,18 +121,7 @@ export default class CountingBloomFilter
    * ```
    */
   public has(element: HashableInput): boolean {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._size,
-      this._nbHashes,
-      this.seed
-    )
-    for (let i = 0; i < indexes.length; i++) {
-      if (!this._filter[indexes[i]][0]) {
-        return false
-      }
-    }
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -189,10 +134,7 @@ export default class CountingBloomFilter
    * ```
    */
   public rate(): number {
-    return (
-      (1 - Math.exp((-this._nbHashes * this._length) / this._size)) **
-      this._nbHashes
-    )
+      throw new Error("STUB");
   }
 
   /**
@@ -201,37 +143,16 @@ export default class CountingBloomFilter
    * @return True if they are equal, false otherwise
    */
   public equals(other: CountingBloomFilter): boolean {
-    if (
-      this._size !== other._size ||
-      this._nbHashes !== other._nbHashes ||
-      this._length !== other._length
-    ) {
-      return false
-    }
-    return this._filter.every(
-      (value, index) =>
-        other._filter[index][0] === value[0] &&
-        other._filter[index][1] === value[1]
-    )
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedCountingBloomFilter {
-    return {
-      _length: this._length,
-      _size: this._size,
-      _nbHashes: this._nbHashes,
-      _filter: this._filter,
-      _seed: exportBigInt(this._seed),
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(
     element: ExportedCountingBloomFilter
   ): CountingBloomFilter {
-    const bl = new CountingBloomFilter(element._size, element._nbHashes)
-    bl.seed = importBigInt(element._seed)
-    bl._length = element._length
-    bl._filter = element._filter
-    return bl
+      throw new Error("STUB");
   }
 }

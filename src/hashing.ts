@@ -26,10 +26,7 @@ export default class Hashing implements Hashing {
     hashB: bigint,
     size: number
   ): bigint {
-    const bigN = BigInt(n),
-      floor = bigN ** 3n - bigN / 6n,
-      value = (hashA + bigN * hashB + floor) % BigInt(size)
-    return getBigIntAbs(value)
+      throw new Error("STUB");
   }
 
   /**
@@ -48,15 +45,7 @@ export default class Hashing implements Hashing {
     hashCount: number,
     seed?: SeedType
   ): Array<number> {
-    if (seed === undefined) {
-      seed = getDefaultSeed()
-    }
-    const arr = [],
-      hashes = this.hashTwice(element, seed)
-    for (let i = 0; i < hashCount; i++) {
-      arr.push(this.doubleHashing(i, hashes.first, hashes.second, size))
-    }
-    return arr.map(bigIntToNumber)
+      throw new Error("STUB");
   }
 
   /**
@@ -71,10 +60,7 @@ export default class Hashing implements Hashing {
    * @returns Returns the hash of the element as a BigInt
    */
   public serialize(element: HashableInput, seed?: SeedType): bigint {
-    if (!seed) {
-      seed = getDefaultSeed()
-    }
-    return xxh64(element, seed)
+      throw new Error("STUB");
   }
 
   /**
@@ -85,13 +71,7 @@ export default class Hashing implements Hashing {
    * @author Arnaud Grall & Thomas Minier
    */
   public hashTwice(value: HashableInput, seed?: SeedType): TwoHashes {
-    if (seed === undefined) {
-      seed = getDefaultSeed()
-    }
-    return {
-      first: this.serialize(value, seed + 1n),
-      second: this.serialize(value, seed + 2n),
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -104,11 +84,7 @@ export default class Hashing implements Hashing {
     value: HashableInput,
     seed?: SeedType
   ): TwoHashesTemplated<string> {
-    const {first, second} = this.hashTwice(value, seed)
-    return {
-      first: first.toString(16),
-      second: second.toString(16),
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -122,21 +98,7 @@ export default class Hashing implements Hashing {
     val: HashableInput,
     seed?: SeedType
   ): TwoHashesIntAndString {
-    if (seed === undefined) {
-      seed = getDefaultSeed()
-    }
-    const one = this.hashIntAndString(val, seed + 1n),
-      two = this.hashIntAndString(val, seed + 2n)
-    return {
-      int: {
-        first: one.int,
-        second: two.int,
-      },
-      string: {
-        first: one.string,
-        second: two.string,
-      },
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -147,10 +109,7 @@ export default class Hashing implements Hashing {
    * @author Arnaud Grall
    */
   public hashAsInt(elem: HashableInput, seed?: SeedType): bigint {
-    if (seed === undefined) {
-      seed = getDefaultSeed()
-    }
-    return this.serialize(elem, seed)
+      throw new Error("STUB");
   }
 
   /**
@@ -161,7 +120,6 @@ export default class Hashing implements Hashing {
    * @author Arnaud Grall
    */
   public hashIntAndString(elem: HashableInput, seed?: SeedType) {
-    const hash = this.hashAsInt(elem, seed)
-    return {int: hash, string: hash.toString(16)}
+      throw new Error("STUB");
   }
 }

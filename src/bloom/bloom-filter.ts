@@ -36,15 +36,7 @@ export default class BloomFilter
    * @param nbHashes - The number of hash functions used
    */
   constructor(size: number, nbHashes: number) {
-    super()
-    if (nbHashes < 1) {
-      throw new Error(
-        `A BloomFilter cannot uses less than one hash function, while you tried to use ${nbHashes}.`
-      )
-    }
-    this._size = size
-    this._nbHashes = nbHashes
-    this._filter = new BitSet(size)
+      throw new Error("STUB");
   }
 
   /**
@@ -54,9 +46,7 @@ export default class BloomFilter
    * @return A new {@link BloomFilter}
    */
   public static create(nbItems: number, errorRate: number): BloomFilter {
-    const size = optimalFilterSize(nbItems, errorRate),
-      hashes = optimalHashes(size, nbItems)
-    return new this(size, hashes)
+      throw new Error("STUB");
   }
 
   /**
@@ -76,13 +66,7 @@ export default class BloomFilter
     errorRate: number,
     seed?: SeedType
   ): BloomFilter {
-    const array = Array.from(items),
-      filter = BloomFilter.create(array.length, errorRate)
-    if (seed) {
-      filter.seed = seed
-    }
-    array.forEach(element => filter.add(element))
-    return filter
+      throw new Error("STUB");
   }
 
   /**
@@ -90,7 +74,7 @@ export default class BloomFilter
    * @return The size of the filter
    */
   get size(): number {
-    return this._size
+      throw new Error("STUB");
   }
 
   /**
@@ -98,7 +82,7 @@ export default class BloomFilter
    * @return The filter length
    */
   public get length(): number {
-    return this._filter.bitCount()
+      throw new Error("STUB");
   }
 
   /**
@@ -111,15 +95,7 @@ export default class BloomFilter
    * ```
    */
   public add(element: HashableInput): void {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._size,
-      this._nbHashes,
-      this.seed
-    )
-    for (let i = 0; i < indexes.length; i++) {
-      this._filter.add(indexes[i])
-    }
+      throw new Error("STUB");
   }
 
   /**
@@ -135,18 +111,7 @@ export default class BloomFilter
    * ```
    */
   public has(element: HashableInput): boolean {
-    const indexes = this._hashing.getIndexes(
-      element,
-      this._size,
-      this._nbHashes,
-      this.seed
-    )
-    for (let i = 0; i < indexes.length; i++) {
-      if (!this._filter.has(indexes[i])) {
-        return false
-      }
-    }
-    return true
+      throw new Error("STUB");
   }
 
   /**
@@ -159,7 +124,7 @@ export default class BloomFilter
    * ```
    */
   public rate(): number {
-    return (1 - Math.exp(-this.length / this._size)) ** this._nbHashes
+      throw new Error("STUB");
   }
 
   /**
@@ -168,36 +133,14 @@ export default class BloomFilter
    * @return True if they are equal, false otherwise
    */
   public equals(other: BloomFilter): boolean {
-    if (this._size !== other._size || this._nbHashes !== other._nbHashes) {
-      return false
-    }
-    return this._filter.equals(other._filter)
+      throw new Error("STUB");
   }
 
   public saveAsJSON(): ExportedBloomFilter {
-    return {
-      _size: this._size,
-      _nbHashes: this._nbHashes,
-      _filter: this._filter.export(),
-      _seed: exportBigInt(this._seed),
-    }
+      throw new Error("STUB");
   }
 
   public static fromJSON(element: ExportedBloomFilter): BloomFilter {
-    const bl = new BloomFilter(element._size, element._nbHashes)
-    bl.seed = importBigInt(element._seed)
-    const data = element._filter
-    if (Array.isArray(data)) {
-      const bs = new BitSet(data.length)
-      data.forEach((val: number, index: number) => {
-        if (val !== 0) {
-          bs.add(index)
-        }
-      })
-      bl._filter = bs
-    } else {
-      bl._filter = BitSet.import(data as {size: number; content: string})
-    }
-    return bl
+      throw new Error("STUB");
   }
 }
